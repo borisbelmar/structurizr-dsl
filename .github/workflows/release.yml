@@ -24,11 +24,15 @@ jobs:
 
       - name: Build tar.gz
         run: |
-          tar -czf "${{ steps.skill.outputs.archive }}" \
+          tar -czf "/tmp/${{ steps.skill.outputs.archive }}" \
             --exclude='.git' \
             --exclude='.github' \
-            --exclude='*.tar.gz' \
             .
+          mv "/tmp/${{ steps.skill.outputs.archive }}" .
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
