@@ -33,10 +33,6 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
           name: "${{ steps.skill.outputs.name }} v${{ steps.skill.outputs.version }}"
           tag_name: ${{ github.ref_name }}
           generate_release_notes: true
