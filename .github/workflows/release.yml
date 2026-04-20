@@ -1,0 +1,39 @@
+name: Release Skill
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Read skill metadata
+        id: skill
+        run: |
+          NAME=$(jq -r '.name' skill.json)
+          VERSION=$(jq -r '.version' skill.json)
+          echo "name=$NAME" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "archive=${NAME}-${VERSION}.tar.gz" >> $GITHUB_OUTPUT
+
+      - name: Build tar.gz
+        run: |
+          tar -czf "${{ steps.skill.outputs.archive }}" \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='*.tar.gz' \
+            .
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "${{ steps.skill.outputs.name }} v${{ steps.skill.outputs.version }}"
+          tag_name: ${{ github.ref_name }}
+          generate_release_notes: true
+          files: ${{ steps.skill.outputs.archive }}
