@@ -1,0 +1,11 @@
+{
+  "name": "structurizr-dsl",
+  "version": "1.0.0",
+  "description": "A skill for building C4 model diagrams using Structurizr DSL.",
+  "author": "borisbelmar",
+  "tags": ["structurizr", "dsl", "c4", "diagrams"],
+  "ignore": [
+    "AGENTS.md",
+    "README.md"
+  ]
+}
